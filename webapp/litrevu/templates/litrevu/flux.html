@@ -1,0 +1,22 @@
+{% extends 'litrevu/base.html' %}
+
+{% block content %}
+<div class="flux-container">
+    <header>
+        <h1>Flux LITReview</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'flux' %}">Flux</a></li>
+                <li><a href="#">Posts</a></li>
+                <li><a href="#">Abonnements</a></li>
+                <li><a href="{% url 'logout' %}">Se déconnecter</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="content">
+        <h2>Bienvenue sur votre flux, {{ user.username }} !</h2>
+        <p>Ici s'afficheront les posts et critiques de vos abonnements.</p>
+    </div>
+</div>
+{% endblock %}

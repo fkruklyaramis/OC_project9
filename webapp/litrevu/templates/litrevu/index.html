@@ -2,11 +2,37 @@
 {% extends 'litrevu/base.html' %}
 
 {% block content %}
+<div class="auth-container">
+    <header>
+        <h1>LITReview</h1>
+    </header>
+    
+    <div class="auth-sections">
+        <div class="register-section">
+            <h2>Inscrivez-vous maintenant</h2>
+            <form method="post" action="{% url 'register' %}">
+                {% csrf_token %}
+                <div class="form-actions">
+                    <button type="submit" class="btn">S'inscrire</button>
+                </div>
+            </form>
+        </div>
 
-    <h1>Hello Django !</h1>
-    <p>Les users sont :</p>
-    {% for user in users %}
-    {{ user.username }},
-    {% endfor %}
-
+        <div class="login-section">
+            <h2>Connectez-vous</h2>
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" name="username" placeholder="Nom d'utilisateur" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Mot de passe" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Se connecter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

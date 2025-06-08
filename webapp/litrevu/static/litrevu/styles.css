@@ -1,1 +1,65 @@
-* { background: whitesmoke }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+.auth-container {
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #000;
+}
+
+header {
+    border-bottom: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.auth-sections {
+    display: flex;
+    justify-content: space-between;
+    padding: 50px 20px;
+}
+
+.register-section, .login-section {
+    width: 45%;
+}
+
+.register-section {
+    text-align: center;
+}
+
+.login-section {
+    text-align: right;
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+}
+
+.btn {
+    padding: 8px 15px;
+    background-color: white;
+    border: 1px solid #000;
+    cursor: pointer;
+    border-radius: 4px;
+}
