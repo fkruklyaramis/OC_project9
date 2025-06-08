@@ -1,10 +1,27 @@
 {% load static %}
-<html>
-    <head><title>Lit Review</title></head>
-    <link rel="stylesheet" href="{% static 'litrevu/styles.css' %}" />
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LITReview</title>
+        <link rel="stylesheet" href="{% static 'litrevu/styles.css' %}" />
+    </head>
     <body>
+        <div class="container">
+            <header class="site-header">
+                <div class="header-container">
+                    <span>LITReview</span>
+                    <nav class="site-nav">
+                        <a href="{% url 'flux' %}">Flux</a>
+                        <a href="{% url 'create_ticket' %}">Posts</a>
+                        <a href="#">Abonnements</a>
+                        <a href="{% url 'logout' %}">Se déconnecter</a>
+                    </nav>
+                </div>
+            </header>
 
-        {% block content %}{% endblock %}
-
+            {% block content %}{% endblock %}
+        </div>
     </body>
 </html>

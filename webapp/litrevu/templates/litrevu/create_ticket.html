@@ -1,0 +1,58 @@
+{% extends 'litrevu/base.html' %}
+
+{% block content %}
+<div class="container">
+    <main class="ticket-page">
+        <h2>Créer un ticket</h2>
+        
+        <form method="post" enctype="multipart/form-data" class="ticket-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_title">Titre</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="form-errors">{{ form.title.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_description">Description</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="form-errors">{{ form.description.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_image">Image</label>
+                <div class="file-upload">
+                    {{ form.image }}
+                    <label for="id_image" class="file-button">Télécharger fichier</label>
+                </div>
+                {% if form.image.errors %}
+                    <div class="form-errors">{{ form.image.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-submit">
+                <button type="submit" class="btn-submit">Envoyer</button>
+            </div>
+        </form>
+    </main>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('id_image');
+        const fileButton = document.querySelector('.file-button');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileButton.textContent = this.files[0].name;
+            } else {
+                fileButton.textContent = 'Télécharger fichier';
+            }
+        });
+    });
+</script>
+{% endblock %}

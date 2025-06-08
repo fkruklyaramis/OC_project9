@@ -28,6 +28,7 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
     path('flux/', views.flux, name='flux'),
+    path('create_ticket/', views.create_ticket, name='create_ticket'),
 
 ]
 

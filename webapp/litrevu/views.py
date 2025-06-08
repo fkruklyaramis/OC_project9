@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as auth_logout
+from .forms import TicketForm
 
 
 def index(request):
@@ -58,3 +59,19 @@ def user_logout(request):
 def flux(request):
     """Vue principale pour afficher le flux des critiques et tickets"""
     return render(request, 'litrevu/flux.html')
+
+
+@login_required
+def create_ticket(request):
+    """Vue pour créer un nouveau ticket"""
+    if request.method == 'POST':
+        form = TicketForm(request.POST, request.FILES)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            return redirect('flux')
+    else:
+        form = TicketForm()
+    
+    return render(request, 'litrevu/create_ticket.html', {'form': form})
