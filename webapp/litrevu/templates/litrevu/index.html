@@ -1,0 +1,12 @@
+
+{% extends 'litrevu/base.html' %}
+
+{% block content %}
+
+    <h1>Hello Django !</h1>
+    <p>Les users sont :</p>
+    {% for user in users %}
+    {{ user.username }},
+    {% endfor %}
+
+{% endblock %}
