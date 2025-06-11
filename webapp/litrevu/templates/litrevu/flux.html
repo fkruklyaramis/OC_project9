@@ -4,7 +4,12 @@
 <div class="flux-container">
     <div class="content">
         <h2>Bienvenue sur votre flux, {{ user.username }} !</h2>
-        <p>Ici s'afficheront les posts et critiques de vos abonnements.</p>
+        
+        <div class="action-buttons">
+            <a href="{% url 'create_ticket' %}" class="btn-action">Demander une critique</a>
+            <a href="{% url 'create_review' %}" class="btn-action">Créer une critique</a>
+        </div>
+        
     </div>
 </div>
 {% endblock %}

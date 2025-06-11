@@ -1,0 +1,21 @@
+{% extends 'litrevu/base.html' %}
+
+{% block content %}
+<div class="container">
+    <main class="delete-page">
+        <h2>Supprimer le ticket</h2>
+        
+        <div class="delete-confirmation">
+            <p>Êtes-vous sûr de vouloir supprimer le ticket "{{ ticket.title }}" ?</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-actions">
+                    <button type="submit" class="btn-delete">Confirmer la suppression</button>
+                    <a href="{% url 'posts' %}" class="btn-cancel">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}

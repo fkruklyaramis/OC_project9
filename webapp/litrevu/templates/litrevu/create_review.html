@@ -1,0 +1,97 @@
+{% extends 'litrevu/base.html' %}
+
+{% block content %}
+<div class="container">
+    <main class="review-page">
+        <h2>Créer une critique</h2>
+        
+        <form method="post" enctype="multipart/form-data" class="review-form">
+            {% csrf_token %}
+            
+            <div class="ticket-section">
+                <h3>Livre / Article</h3>
+                
+                <div class="form-group">
+                    <label for="id_title">Titre</label>
+                    {{ ticket_form.title }}
+                    {% if ticket_form.title.errors %}
+                        <div class="form-errors">{{ ticket_form.title.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_description">Description</label>
+                    {{ ticket_form.description }}
+                    {% if ticket_form.description.errors %}
+                        <div class="form-errors">{{ ticket_form.description.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_image">Image</label>
+                    <div class="file-upload">
+                        {{ ticket_form.image }}
+                        <label for="id_image" class="file-button">Télécharger fichier</label>
+                    </div>
+                    {% if ticket_form.image.errors %}
+                        <div class="form-errors">{{ ticket_form.image.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="review-section">
+                <h3>Critique</h3>
+                
+                <div class="form-group">
+                    <label for="id_headline">Titre</label>
+                    {{ review_form.headline }}
+                    {% if review_form.headline.errors %}
+                        <div class="form-errors">{{ review_form.headline.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label>Note</label>
+                    <div class="rating-choices">
+                        {% for radio in review_form.rating %}
+                            <div class="rating-option">
+                                {{ radio.tag }}
+                                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if review_form.rating.errors %}
+                        <div class="form-errors">{{ review_form.rating.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_body">Commentaire</label>
+                    {{ review_form.body }}
+                    {% if review_form.body.errors %}
+                        <div class="form-errors">{{ review_form.body.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-submit">
+                <button type="submit" class="btn-submit">Envoyer</button>
+            </div>
+        </form>
+    </main>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('id_image');
+        const fileButton = document.querySelector('.file-button');
+        
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                fileButton.textContent = this.files[0].name;
+            } else {
+                fileButton.textContent = 'Télécharger fichier';
+            }
+        });
+    });
+</script>
+{% endblock %}

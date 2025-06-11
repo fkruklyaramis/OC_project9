@@ -1,0 +1,72 @@
+{% extends 'litrevu/base.html' %}
+
+{% block content %}
+<div class="container">
+    <main class="posts-page">
+        <h2>Vos posts</h2>
+        
+        <div class="posts-container">
+            {% for post in posts %}
+                {% if post.content_type == 'REVIEW' %}
+                    <div class="post review-post">
+                        <div class="post-header">
+                            <div class="post-info">
+                                <span class="post-type">Vous avez publié une critique</span>
+                                <span class="post-date">{{ post.time_created|date:"H:i, d M Y" }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            <h3 class="review-title">{{ post.headline }} - <span class="rating">
+                                {% for i in ""|ljust:post.rating %}★{% endfor %}{% for i in ""|ljust:5|slice:post.rating %}☆{% endfor %}
+                            </span></h3>
+                            <p class="review-body">{{ post.body }}</p>
+                            
+                            <div class="ticket-in-review">
+                                <div class="ticket-header">
+                                    <span class="ticket-author">Ticket - {% if post.ticket.user == request.user %}Vous{% else %}{{ post.ticket.user.username }}{% endif %}</span>
+                                    <span class="ticket-date">{{ post.ticket.time_created|date:"H:i, d M Y" }}</span>
+                                </div>
+                                <h4 class="ticket-title">{{ post.ticket.title }}</h4>
+                                {% if post.ticket.image %}
+                                    <img src="{{ post.ticket.image.url }}" alt="Image pour {{ post.ticket.title }}" class="ticket-image">
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="post-actions">
+                            <a href="{% url 'update_review' post.id %}" class="btn-action-small">Modifier</a>
+                            <a href="{% url 'delete_review' post.id %}" class="btn-action-small">Supprimer</a>
+                        </div>
+                    </div>
+                {% elif post.content_type == 'TICKET' %}
+                    <div class="post ticket-post">
+                        <div class="post-header">
+                            <div class="post-info">
+                                <span class="post-type">Vous avez publié un ticket</span>
+                                <span class="post-date">{{ post.time_created|date:"H:i, d M Y" }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            <h3 class="ticket-title">{{ post.title }}</h3>
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="Image pour {{ post.title }}" class="ticket-image">
+                            {% endif %}
+                        </div>
+                        
+                        <div class="post-actions">
+                            <a href="{% url 'update_ticket' post.id %}" class="btn-action-small">Modifier</a>
+                            <a href="{% url 'delete_ticket' post.id %}" class="btn-action-small">Supprimer</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% empty %}
+                <div class="no-posts">
+                    <p>Vous n'avez pas encore créé de posts.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+{% endblock %}

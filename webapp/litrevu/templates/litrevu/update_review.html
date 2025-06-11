@@ -1,0 +1,61 @@
+{% extends 'litrevu/base.html' %}
+
+{% block content %}
+<div class="container">
+    <main class="review-update-page">
+        <h2>Modifier la critique</h2>
+        
+        <form method="post" class="review-form">
+            {% csrf_token %}
+            
+            <div class="ticket-info">
+                <h3>Ticket associé</h3>
+                <div class="ticket-detail">
+                    <p><strong>{{ review.ticket.title }}</strong></p>
+                    {% if review.ticket.description %}
+                        <p>{{ review.ticket.description }}</p>
+                    {% endif %}
+                    {% if review.ticket.image %}
+                        <img src="{{ review.ticket.image.url }}" alt="Image du ticket" class="ticket-image">
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_headline">Titre</label>
+                {{ form.headline }}
+                {% if form.headline.errors %}
+                    <div class="form-errors">{{ form.headline.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label>Note</label>
+                <div class="rating-choices">
+                    {% for radio in form.rating %}
+                        <div class="rating-option">
+                            {{ radio.tag }}
+                            <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if form.rating.errors %}
+                    <div class="form-errors">{{ form.rating.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_body">Commentaire</label>
+                {{ form.body }}
+                {% if form.body.errors %}
+                    <div class="form-errors">{{ form.body.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="form-submit">
+                <button type="submit" class="btn-submit">Modifier</button>
+            </div>
+        </form>
+    </main>
+</div>
+{% endblock %}
