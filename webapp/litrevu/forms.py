@@ -1,5 +1,6 @@
 from django import forms
 from .models import Ticket, Review
+from django.conf import settings
 
 
 class TicketForm(forms.ModelForm):
@@ -29,7 +30,8 @@ class TicketForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
-    RATING_CHOICES = [(0, '0'), (1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')]
+    RATING_CHOICES = [(i, str(i)) for i in range(settings.MAX_RATING + 1)]
+    
     rating = forms.ChoiceField(
         choices=RATING_CHOICES,
         widget=forms.RadioSelect(),

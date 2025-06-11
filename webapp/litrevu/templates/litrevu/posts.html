@@ -18,7 +18,13 @@
                         
                         <div class="post-content">
                             <h3 class="review-title">{{ post.headline }} - <span class="rating">
-                                {% for i in ""|ljust:post.rating %}★{% endfor %}{% for i in ""|ljust:5|slice:post.rating %}☆{% endfor %}
+                                {% for i in "x"|ljust:MAX_RATING %}
+                                    {% if forloop.counter <= post.rating %}
+                                        ★
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
                             </span></h3>
                             <p class="review-body">{{ post.body }}</p>
                             

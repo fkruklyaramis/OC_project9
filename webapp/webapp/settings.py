@@ -60,9 +60,11 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'litrevu.context_processors.rating_settings',  # Custom context processor for rating settings
             ],
         },
     },
@@ -128,3 +130,6 @@ LOGIN_REDIRECT_URL = 'flux'  # Page où rediriger après une connexion réussie
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Constants for the application
+MAX_RATING = 5

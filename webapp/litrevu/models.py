@@ -25,7 +25,7 @@ class Review(models.Model):
         on_delete=models.CASCADE
     )
     rating = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(5)]
+        validators=[MinValueValidator(0), MaxValueValidator(settings.MAX_RATING)]
     )
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
