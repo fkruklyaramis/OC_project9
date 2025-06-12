@@ -1,0 +1,75 @@
+{% extends 'litrevu/base.html' %}
+
+{% block content %}
+<div class="container">
+    <main class="subscriptions-page">
+        <h2>Suivre d'autres utilisateurs</h2>
+        
+        {% if error_message %}
+            <div class="alert alert-error">{{ error_message }}</div>
+        {% endif %}
+        
+        {% if success_message %}
+            <div class="alert alert-success">{{ success_message }}</div>
+        {% endif %}
+        
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <!-- Formulaire de recherche d'utilisateur -->
+        <form method="post" class="search-form">
+            {% csrf_token %}
+            <div class="form-group search-group">
+                <input type="text" name="username" placeholder="Nom d'utilisateur" required class="form-control">
+                <button type="submit" class="btn">Envoyer</button>
+            </div>
+        </form>
+        
+        <!-- Liste des abonnements -->
+        <section class="subscriptions-section">
+            <h3>Abonnements</h3>
+            <table class="subscriptions-table">
+                <tbody>
+                {% for follow in followed_users %}
+                    <tr>
+                        <td>{{ follow.followed_user.username }}</td>
+                        <td>
+                            <a href="{% url 'unfollow_user' follow.followed_user.id %}" class="btn-unfollow">Désabonner</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="2">Vous ne suivez aucun utilisateur.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Liste des abonnés -->
+        <section class="followers-section">
+            <h3>Abonnés</h3>
+            <table class="followers-table">
+                <tbody>
+                {% for follower in followers %}
+                    <tr>
+                        <td>{{ follower.user.username }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td>Aucun utilisateur ne vous suit.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+</div>
+{% endblock %}

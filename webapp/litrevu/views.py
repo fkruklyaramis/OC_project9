@@ -7,7 +7,9 @@ from django.contrib.auth import logout as auth_logout
 from .forms import TicketForm, ReviewForm
 from itertools import chain
 from operator import attrgetter
-from .models import Ticket, Review
+from .models import Ticket, Review, UserFollows
+from django.contrib.auth.models import User
+from django.conf import settings
 
 
 def index(request):
@@ -129,7 +131,10 @@ def posts(request):
         reverse=True
     )
 
-    return render(request, 'litrevu/posts.html', {'posts': posts})
+    return render(request, 'litrevu/posts.html', {
+        'posts': posts,
+        'MAX_RATING': settings.MAX_RATING
+    })
 
 
 @login_required
@@ -182,3 +187,78 @@ def delete_review(request, review_id):
         return redirect('posts')
 
     return render(request, 'litrevu/delete_review.html', {'review': review})
+
+
+@login_required
+def subscriptions(request):
+    """
+    Gère les abonnements de l'utilisateur : suivi et ajout d'utilisateurs
+    """
+    # Obtenir les utilisateurs suivis par l'utilisateur connecté
+    followed_users = UserFollows.objects.filter(user=request.user)
+
+    # Obtenir les utilisateurs qui suivent l'utilisateur connecté
+    followers = UserFollows.objects.filter(followed_user=request.user)
+
+    error_message = None
+    success_message = None
+
+    # Traitement du formulaire de recherche d'utilisateur
+    if request.method == 'POST':
+        username = request.POST.get('username')
+
+        if username:
+            # Vérifier si l'utilisateur cherche à se suivre lui-même
+            if username == request.user.username:
+                error_message = "Vous ne pouvez pas vous suivre vous-même."
+            else:
+                try:
+                    user_to_follow = User.objects.get(username=username)
+
+                    # Vérifier si l'utilisateur suit déjà cet utilisateur
+                    if UserFollows.objects.filter(user=request.user, followed_user=user_to_follow).exists():
+                        error_message = f"Vous suivez déjà {username}."
+                    else:
+                        # Créer la relation de suivi
+                        UserFollows.objects.create(
+                            user=request.user,
+                            followed_user=user_to_follow
+                        )
+                        success_message = f"Vous suivez maintenant {username}."
+
+                except User.DoesNotExist:
+                    error_message = f"L'utilisateur {username} n'existe pas."
+
+    context = {
+        'followed_users': followed_users,
+        'followers': followers,
+        'error_message': error_message,
+        'success_message': success_message
+    }
+
+    return render(request, 'litrevu/subscriptions.html', context)
+
+
+@login_required
+def unfollow_user(request, user_id):
+    """
+    Supprime un utilisateur de la liste des suivis
+    """
+    try:
+        # Trouver la relation de suivi
+        user_follow = UserFollows.objects.get(
+            user=request.user,
+            followed_user__id=user_id
+        )
+        # Récupérer le nom d'utilisateur pour le message
+        username = user_follow.followed_user.username
+        # Supprimer la relation
+        user_follow.delete()
+
+        # Rediriger avec un message de succès
+        messages.success(request, f"Vous ne suivez plus {username}.")
+    except UserFollows.DoesNotExist:
+        # Si la relation n'existe pas, ajouter un message d'erreur
+        messages.error(request, "Cette relation de suivi n'existe pas.")
+
+    return redirect('subscriptions')

@@ -20,6 +20,7 @@ from litrevu import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
@@ -34,6 +35,8 @@ urlpatterns = [
     path('delete-ticket/<int:ticket_id>/', views.delete_ticket, name='delete_ticket'),
     path('update-review/<int:review_id>/', views.update_review, name='update_review'),
     path('delete-review/<int:review_id>/', views.delete_review, name='delete_review'),
+    path('subscriptions/', views.subscriptions, name='subscriptions'),
+    path('unfollow-user/<int:user_id>/', views.unfollow_user, name='unfollow_user'),
 
 ]
 

@@ -64,7 +64,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'litrevu.context_processors.rating_settings',  # Custom context processor for rating settings
             ],
         },
     },

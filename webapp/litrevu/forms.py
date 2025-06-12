@@ -31,7 +31,7 @@ class TicketForm(forms.ModelForm):
 
 class ReviewForm(forms.ModelForm):
     RATING_CHOICES = [(i, str(i)) for i in range(settings.MAX_RATING + 1)]
-    
+
     rating = forms.ChoiceField(
         choices=RATING_CHOICES,
         widget=forms.RadioSelect(),

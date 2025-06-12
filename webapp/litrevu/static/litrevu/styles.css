@@ -402,3 +402,73 @@ header, .site-header {
 .btn-cancel {
     background-color: #f8f9fa;
 }
+/* Styles pour la page d'abonnements */
+.subscriptions-page {
+    padding: 20px;
+}
+
+.search-form {
+    margin-bottom: 30px;
+}
+
+.search-group {
+    display: flex;
+    gap: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-group input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #000;
+}
+
+.search-group button {
+    padding: 8px 20px;
+    border: 1px solid #000;
+    background-color: white;
+    cursor: pointer;
+}
+
+.subscriptions-section, .followers-section {
+    margin-top: 30px;
+}
+
+.subscriptions-table, .followers-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.subscriptions-table td, .followers-table td {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+.btn-unfollow {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #000;
+    text-decoration: none;
+    color: #000;
+    text-align: center;
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+}
+
+.alert-error {
+    border-color: #dc3545;
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert-success {
+    border-color: #28a745;
+    background-color: #d4edda;
+    color: #155724;
+}
