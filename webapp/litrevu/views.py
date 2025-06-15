@@ -1,4 +1,6 @@
+from django.db.models import Value, CharField
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -9,7 +11,7 @@ from itertools import chain
 from operator import attrgetter
 from .models import Ticket, Review, UserFollows
 from django.contrib.auth.models import User
-from django.conf import settings
+from .constants import ERROR_MESSAGES, SUCCESS_MESSAGES, MAX_RATING
 
 
 def index(request):
@@ -24,16 +26,13 @@ def register(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Compte créé avec succès pour {username}')
+            messages.success(request, SUCCESS_MESSAGES['ACCOUNT_CREATED'].format(username=username))
             # Connecte automatiquement l'utilisateur après inscription
             login(request, user)
-            return redirect('flux')  # Rediriger vers la page de flux après inscription
-        else:
-            for msg in form.error_messages:
-                messages.error(request, f"{msg}: {form.error_messages[msg]}")
+            return redirect('flux')  # Rediriger vers le flux après inscription
+        # Si le formulaire n'est pas valide, les erreurs seront affichées dans le template
     else:
         form = UserCreationForm()
-
     return render(request, 'litrevu/register.html', {'form': form})
 
 
@@ -49,7 +48,7 @@ def user_login(request):
             login(request, user)
             return redirect('flux')  # Rediriger vers la page de flux après connexion
         else:
-            messages.error(request, 'Nom d\'utilisateur ou mot de passe incorrect.')
+            messages.error(request, ERROR_MESSAGES['LOGIN_FAILED'])
 
     return redirect('index')  # Rediriger vers la page d'accueil en cas d'échec de connexion
 
@@ -61,12 +60,6 @@ def user_logout(request):
 
 
 @login_required
-def flux(request):
-    """Vue principale pour afficher le flux des critiques et tickets"""
-    return render(request, 'litrevu/flux.html')
-
-
-@login_required
 def create_ticket(request):
     """Vue pour créer un nouveau ticket"""
     if request.method == 'POST':
@@ -75,6 +68,7 @@ def create_ticket(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
+            messages.success(request, SUCCESS_MESSAGES['TICKET_CREATED'])
             return redirect('flux')
     else:
         form = TicketForm()
@@ -83,30 +77,56 @@ def create_ticket(request):
 
 
 @login_required
-def create_review(request):
-    if request.method == 'POST':
-        ticket_form = TicketForm(request.POST, request.FILES)
-        review_form = ReviewForm(request.POST)
-        if ticket_form.is_valid() and review_form.is_valid():
-            # Créer le ticket
-            ticket = ticket_form.save(commit=False)
-            ticket.user = request.user
-            ticket.save()
-
-            # Créer la critique associée au ticket
-            review = review_form.save(commit=False)
-            review.user = request.user
-            review.ticket = ticket
-            review.save()
-
+def create_review(request, ticket_id=None):
+    """
+    Crée une critique soit:
+    - Pour un ticket existant (si ticket_id est fourni)
+    - Avec un nouveau ticket (si ticket_id n'est pas fourni)
+    """
+    # Déterminer si on répond à un ticket existant ou si on crée un nouveau
+    existing_ticket = None
+    if ticket_id:
+        existing_ticket = get_object_or_404(Ticket, id=ticket_id)
+        # Vérifier si l'utilisateur a déjà posté une critique pour ce ticket
+        if Review.objects.filter(ticket=existing_ticket, user=request.user).exists():
+            messages.error(request, ERROR_MESSAGES['ALREADY_REVIEWED'])
             return redirect('flux')
+
+    if request.method == 'POST':
+        # Si on répond à un ticket existant, on n'utilise pas le formulaire de ticket
+        if existing_ticket:
+            review_form = ReviewForm(request.POST)
+            if review_form.is_valid():
+                review = review_form.save(commit=False)
+                review.user = request.user
+                review.ticket = existing_ticket
+                review.save()
+                return redirect('flux')
+        else:
+            # Création d'un nouveau ticket et d'une critique
+            ticket_form = TicketForm(request.POST, request.FILES)
+            review_form = ReviewForm(request.POST)
+            if ticket_form.is_valid() and review_form.is_valid():
+                # Créer le ticket
+                ticket = ticket_form.save(commit=False)
+                ticket.user = request.user
+                ticket.save()
+
+                # Créer la critique associée au ticket
+                review = review_form.save(commit=False)
+                review.user = request.user
+                review.ticket = ticket
+                review.save()
+
+                return redirect('flux')
     else:
-        ticket_form = TicketForm()
         review_form = ReviewForm()
+        ticket_form = None if existing_ticket else TicketForm()
 
     return render(request, 'litrevu/create_review.html', {
         'ticket_form': ticket_form,
-        'review_form': review_form
+        'review_form': review_form,
+        'existing_ticket': existing_ticket
     })
 
 
@@ -133,7 +153,7 @@ def posts(request):
 
     return render(request, 'litrevu/posts.html', {
         'posts': posts,
-        'MAX_RATING': settings.MAX_RATING
+        'MAX_RATING': MAX_RATING
     })
 
 
@@ -145,6 +165,7 @@ def update_ticket(request, ticket_id):
         form = TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form.save()
+            messages.success(request, SUCCESS_MESSAGES['TICKET_UPDATED'])
             return redirect('posts')
     else:
         form = TicketForm(instance=ticket)
@@ -158,6 +179,7 @@ def delete_ticket(request, ticket_id):
 
     if request.method == 'POST':
         ticket.delete()
+        messages.success(request, SUCCESS_MESSAGES['TICKET_DELETED'])
         return redirect('posts')
 
     return render(request, 'litrevu/delete_ticket.html', {'ticket': ticket})
@@ -171,6 +193,7 @@ def update_review(request, review_id):
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
+            messages.success(request, SUCCESS_MESSAGES['REVIEW_UPDATED'])
             return redirect('posts')
     else:
         form = ReviewForm(instance=review)
@@ -184,6 +207,7 @@ def delete_review(request, review_id):
 
     if request.method == 'POST':
         review.delete()
+        messages.success(request, SUCCESS_MESSAGES['REVIEW_DELETED'])
         return redirect('posts')
 
     return render(request, 'litrevu/delete_review.html', {'review': review})
@@ -210,24 +234,24 @@ def subscriptions(request):
         if username:
             # Vérifier si l'utilisateur cherche à se suivre lui-même
             if username == request.user.username:
-                error_message = "Vous ne pouvez pas vous suivre vous-même."
+                error_message = ERROR_MESSAGES['CANNOT_FOLLOW_SELF']
             else:
                 try:
                     user_to_follow = User.objects.get(username=username)
 
                     # Vérifier si l'utilisateur suit déjà cet utilisateur
                     if UserFollows.objects.filter(user=request.user, followed_user=user_to_follow).exists():
-                        error_message = f"Vous suivez déjà {username}."
+                        error_message = ERROR_MESSAGES['ALREADY_FOLLOWING'].format(username=username)
                     else:
                         # Créer la relation de suivi
                         UserFollows.objects.create(
                             user=request.user,
                             followed_user=user_to_follow
                         )
-                        success_message = f"Vous suivez maintenant {username}."
+                        success_message = SUCCESS_MESSAGES['NOW_FOLLOWING'].format(username=username)
 
                 except User.DoesNotExist:
-                    error_message = f"L'utilisateur {username} n'existe pas."
+                    error_message = ERROR_MESSAGES['USER_NOT_FOUND'].format(username=username)
 
     context = {
         'followed_users': followed_users,
@@ -254,11 +278,50 @@ def unfollow_user(request, user_id):
         username = user_follow.followed_user.username
         # Supprimer la relation
         user_follow.delete()
-
-        # Rediriger avec un message de succès
-        messages.success(request, f"Vous ne suivez plus {username}.")
+        messages.success(request, SUCCESS_MESSAGES['UNFOLLOWED'].format(username=username))
     except UserFollows.DoesNotExist:
         # Si la relation n'existe pas, ajouter un message d'erreur
-        messages.error(request, "Cette relation de suivi n'existe pas.")
+        messages.error(request, ERROR_MESSAGES['FOLLOW_RELATION_NOT_FOUND'])
 
     return redirect('subscriptions')
+
+
+@login_required
+def flux(request):
+    # 1. Obtenir les utilisateurs suivis par l'utilisateur connecté
+    followed_users = UserFollows.objects.filter(user=request.user).values_list('followed_user', flat=True)
+
+    # 2. Récupérer les tickets des utilisateurs suivis + tickets de l'utilisateur connecté
+    tickets = Ticket.objects.filter(
+        Q(user__in=followed_users) | Q(user=request.user)
+    ).annotate(content_type=Value('TICKET', CharField()))
+
+    # 3. Récupérer les critiques qui:
+    #    - Sont des utilisateurs suivis
+    #    - Ou sont de l'utilisateur connecté
+    #    - Ou répondent à un ticket de l'utilisateur connecté
+    reviews = Review.objects.filter(
+        Q(user__in=followed_users) |
+        Q(user=request.user) |
+        Q(ticket__user=request.user)
+    ).annotate(content_type=Value('REVIEW', CharField()))
+
+    # 4. Combiner et trier les posts par date de création (les plus récents d'abord)
+    posts = sorted(
+        chain(reviews, tickets),
+        key=lambda post: post.time_created,
+        reverse=True
+    )
+
+    # 5. Pour chaque ticket, déterminer si une critique a déjà été postée par l'utilisateur connecté
+    for post in posts:
+        if hasattr(post, 'content_type') and post.content_type == 'TICKET':
+            post.has_review_from_user = Review.objects.filter(
+                ticket=post,
+                user=request.user
+            ).exists()
+
+    return render(request, 'litrevu/flux.html', {
+        'posts': posts,
+        'MAX_RATING': MAX_RATING
+    })

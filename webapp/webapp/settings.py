@@ -130,5 +130,4 @@ LOGIN_REDIRECT_URL = 'flux'  # Page où rediriger après une connexion réussie
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Constants for the application
-MAX_RATING = 5
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

@@ -1,8 +1,8 @@
 {% extends 'litrevu/base.html' %}
 
 {% block content %}
-<div class="flux-container">
-    <div class="content">
+<div class="container">
+    <main class="flux-container">
         <h2>Bienvenue sur votre flux, {{ user.username }} !</h2>
         
         <div class="action-buttons">
@@ -10,6 +10,97 @@
             <a href="{% url 'create_review' %}" class="btn-action">Créer une critique</a>
         </div>
         
-    </div>
+        <div class="posts-container">
+            {% for post in posts %}
+                {% if post.content_type == 'REVIEW' %}
+                    <div class="post review-post">
+                        <div class="post-header">
+                            <div class="post-info">
+                                {% if post.user == request.user %}
+                                    <span class="post-type">Vous avez publié une critique</span>
+                                {% else %}
+                                    <span class="post-type">{{ post.user.username }} a publié une critique</span>
+                                {% endif %}
+                                <span class="post-date">{{ post.time_created|date:"H:i, d M Y" }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            <h3 class="review-title">{{ post.headline }} - 
+                                <span class="rating">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= post.rating %}
+                                            ★
+                                        {% else %}
+                                            ☆
+                                        {% endif %}
+                                    {% endfor %}
+                                </span>
+                            </h3>
+                            <p class="review-body">{{ post.body }}</p>
+                            
+                            <div class="ticket-in-review">
+                                <div class="ticket-header">
+                                    <span class="ticket-author">
+                                        Ticket - 
+                                        {% if post.ticket.user == request.user %}
+                                            Vous
+                                        {% else %}
+                                            {{ post.ticket.user.username }}
+                                        {% endif %}
+                                    </span>
+                                    <span class="ticket-date">{{ post.ticket.time_created|date:"H:i, d M Y" }}</span>
+                                </div>
+                                <h4 class="ticket-title">{{ post.ticket.title }}</h4>
+                                {% if post.ticket.description %}
+                                    <p class="ticket-description">{{ post.ticket.description }}</p>
+                                {% endif %}
+                                {% if post.ticket.image %}
+                                    <div class="image-container">
+                                        <img src="{{ post.ticket.image.url }}" alt="{{ post.ticket.title }}" class="ticket-image">
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% elif post.content_type == 'TICKET' %}
+                    <div class="post ticket-post">
+                        <div class="post-header">
+                            <div class="post-info">
+                                {% if post.user == request.user %}
+                                    <span class="post-type">Vous avez publié un ticket</span>
+                                {% else %}
+                                    <span class="post-type">{{ post.user.username }} a demandé une critique</span>
+                                {% endif %}
+                                <span class="post-date">{{ post.time_created|date:"H:i, d M Y" }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="post-content">
+                            <h3 class="ticket-title">{{ post.title }}</h3>
+                            {% if post.description %}
+                                <p class="ticket-description">{{ post.description }}</p>
+                            {% endif %}
+                            {% if post.image %}
+                                <div class="image-container">
+                                    <img src="{{ post.image.url }}" alt="{{ post.title }}" class="ticket-image">
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        {% if not post.has_review_from_user %}
+                            <div class="ticket-actions">
+                                <a href="{% url 'create_review_for_ticket' post.id %}" class="btn-create-review">Créer une critique</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% empty %}
+                <div class="no-posts">
+                    <p>Aucun post à afficher. Commencez par suivre d'autres utilisateurs ou créer des posts!</p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
 </div>
 {% endblock %}

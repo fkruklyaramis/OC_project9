@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from .constants import MAX_RATING
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -25,7 +26,7 @@ class Review(models.Model):
         on_delete=models.CASCADE
     )
     rating = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(0), MaxValueValidator(settings.MAX_RATING)]
+        validators=[MinValueValidator(0), MaxValueValidator(MAX_RATING)]
     )
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
@@ -55,6 +56,6 @@ class UserFollows(models.Model):
     class Meta:
         # Garantit qu'un utilisateur ne peut suivre un autre utilisateur qu'une seule fois
         unique_together = ('user', 'followed_user')
-        
+
     def __str__(self):
         return f"{self.user.username} is following {self.followed_user.username}"
