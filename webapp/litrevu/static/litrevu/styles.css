@@ -1,9 +1,8 @@
-/* Styles de base */
+/* ========= STYLES DE BASE ========= */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
-    padding-top: 15px;
+    padding: 15px 0 0 0;
     background-color: white;
 }
 
@@ -12,14 +11,20 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* Conteneurs principaux */
+h3 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+}
+
+/* ========= CONTENEURS ET LAYOUT ========= */
 .auth-container, .container {
     max-width: 800px;
     margin: 0 auto;
     border: 1px solid #000;
 }
 
-/* En-têtes */
+/* ========= HEADER ET NAVIGATION ========= */
 header, .site-header {
     border: 1px solid #000;
     padding: 0;
@@ -30,8 +35,6 @@ header, .site-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #000;
-    padding: 0;
 }
 
 .header-container {
@@ -51,7 +54,6 @@ header, .site-header {
     font-weight: bold;
 }
 
-/* Navigation */
 .site-nav {
     display: flex;
     gap: 10px;
@@ -68,7 +70,7 @@ header, .site-header {
     font-size: 10px;
 }
 
-/* Sections d'authentification */
+/* ========= AUTHENTIFICATION ========= */
 .auth-sections {
     display: flex;
     justify-content: space-between;
@@ -87,21 +89,7 @@ header, .site-header {
     text-align: right;
 }
 
-/* Page de ticket */
-.ticket-page {
-    padding: 20px;
-}
-
-.ticket-page h2 {
-    font-size: 18px;
-    margin: 20px 0;
-}
-
-.ticket-form {
-    width: 100%;
-}
-
-/* Formulaires */
+/* ========= FORMULAIRES ========= */
 .form-group {
     margin-bottom: 20px;
 }
@@ -114,7 +102,8 @@ header, .site-header {
 
 .form-group input[type="text"], 
 .form-group input[type="password"],
-.form-group textarea {
+.form-group textarea,
+.search-group input {
     width: 100%;
     padding: 8px;
     border: 1px solid #000;
@@ -127,7 +116,13 @@ header, .site-header {
     resize: vertical;
 }
 
-/* Téléchargement de fichier */
+.form-errors {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* Upload de fichier */
 .file-upload {
     display: inline-block;
 }
@@ -151,22 +146,45 @@ header, .site-header {
     font-size: 14px;
 }
 
-/* Boutons et actions */
-.form-submit {
-    text-align: right;
-    margin-top: 20px;
+/* Notation */
+.rating-choices {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
 }
 
-.btn-submit {
+.rating-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.rating-option input[type="radio"] {
+    margin: 0;
+}
+
+/* ========= BOUTONS ET ACTIONS ========= */
+.btn-submit,
+.search-group button,
+.btn-delete, 
+.btn-cancel {
     padding: 8px 20px;
-    background-color: #fff;
     border: 1px solid #000;
+    background-color: #fff;
     cursor: pointer;
-    border-radius: 4px;
     font-size: 14px;
 }
 
-/* Boutons d'action flux */
+.form-submit,
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Actions dans le flux */
 .action-buttons {
     display: flex;
     justify-content: center;
@@ -186,213 +204,23 @@ header, .site-header {
     min-width: 200px;
 }
 
-.btn-action:hover {
+.btn-action:hover,
+.btn-delete:hover,
+.btn-cancel:hover,
+.btn-submit:hover {
     background-color: #f8f8f8;
 }
-/* Styles pour la page Posts */
-.posts-page {
-    padding: 20px;
-}
 
-.posts-container {
-    margin-top: 20px;
-}
-
-.post {
-    border: 1px solid #000;
-    margin-bottom: 20px;
-    padding: 15px;
-}
-
-.post-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.post-info {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.post-date {
-    font-size: 12px;
-    color: #666;
-}
-
-.post-content {
-    margin-bottom: 15px;
-}
-
-.review-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.rating {
-    color: #000;
-}
-
-.review-body {
-    margin-bottom: 15px;
-}
-
-.ticket-in-review {
-    border: 1px solid #000;
-    padding: 10px;
-    margin-top: 10px;
-}
-
-.ticket-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-}
-
-.ticket-author {
-    font-weight: bold;
-}
-
-.ticket-date {
-    font-size: 12px;
-    color: #666;
-}
-
-.ticket-image {
-    max-width: 100%;
-    max-height: 300px;
-    margin-top: 10px;
-}
-
-.post-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.btn-action-small {
+.btn-action-small,
+.btn-create-review,
+.btn-unfollow {
     display: inline-block;
     padding: 5px 15px;
     border: 1px solid #000;
     text-decoration: none;
     color: #000;
     font-size: 14px;
-}
-
-.no-posts {
     text-align: center;
-    padding: 20px;
-    border: 1px dashed #ccc;
-}
-
-/* Styles pour la page de critique */
-.review-page {
-    padding: 20px;
-}
-
-.review-form {
-    width: 100%;
-}
-
-.ticket-section, .review-section {
-    margin-bottom: 30px;
-    padding: 20px;
-    border: 1px solid #000;
-}
-
-.ticket-section h3, .review-section h3 {
-    margin-top: 0;
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.rating-choices {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-}
-
-.rating-option {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.rating-option input[type="radio"] {
-    margin: 0;
-}
-
-/* Messages et erreurs */
-.form-errors {
-    color: red;
-    font-size: 0.9em;
-    margin-top: 5px;
-}
-
-.messages {
-    width: 80%;
-    margin: 10px auto;
-    padding: 10px;
-}
-
-.message {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-}
-
-.error {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
-}
-
-.success {
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
-    color: #155724;
-}
-
-/* Pages de suppression et modification */
-.delete-page, .review-update-page {
-    padding: 20px;
-}
-
-.delete-confirmation {
-    border: 1px solid #000;
-    padding: 20px;
-    margin: 20px 0;
-}
-
-.ticket-info {
-    border: 1px solid #000;
-    padding: 15px;
-    margin: 20px 0;
-}
-
-.ticket-detail {
-    margin-top: 10px;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.btn-delete, .btn-cancel {
-    padding: 8px 15px;
-    border: 1px solid #000;
-    text-decoration: none;
-    color: #000;
-    font-size: 14px;
-    background-color: #fff;
-    cursor: pointer;
 }
 
 .btn-delete {
@@ -402,84 +230,48 @@ header, .site-header {
 .btn-cancel {
     background-color: #f8f9fa;
 }
-/* Styles pour la page d'abonnements */
-.subscriptions-page {
-    padding: 20px;
-}
 
-.search-form {
-    margin-bottom: 30px;
-}
-
-.search-group {
-    display: flex;
-    gap: 10px;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.search-group input {
-    flex-grow: 1;
-    padding: 8px;
-    border: 1px solid #000;
-}
-
-.search-group button {
-    padding: 8px 20px;
-    border: 1px solid #000;
-    background-color: white;
-    cursor: pointer;
-}
-
-.subscriptions-section, .followers-section {
-    margin-top: 30px;
-}
-
-.subscriptions-table, .followers-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
-
-.subscriptions-table td, .followers-table td {
-    border: 1px solid #000;
+/* ========= MESSAGES ET ALERTES ========= */
+.messages {
+    width: 80%;
+    margin: 10px auto;
     padding: 10px;
 }
 
-.btn-unfollow {
-    display: inline-block;
-    padding: 5px 10px;
-    border: 1px solid #000;
-    text-decoration: none;
-    color: #000;
-    text-align: center;
-}
-
+.message,
 .alert {
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid transparent;
 }
 
+.error,
 .alert-error {
     border-color: #dc3545;
     background-color: #f8d7da;
     color: #721c24;
 }
 
+.success,
 .alert-success {
     border-color: #28a745;
     background-color: #d4edda;
     color: #155724;
 }
 
-/* Styles pour la page flux */
+/* ========= POSTS ET TICKETS ========= */
+.ticket-page,
+.posts-page,
+.review-page,
+.delete-page,
+.review-update-page,
+.subscriptions-page,
 .flux-container {
     padding: 20px;
 }
 
 .posts-container {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .post {
@@ -500,7 +292,8 @@ header, .site-header {
     width: 100%;
 }
 
-.post-date {
+.post-date,
+.ticket-date {
     font-size: 12px;
     color: #666;
 }
@@ -509,7 +302,8 @@ header, .site-header {
     margin-bottom: 15px;
 }
 
-.review-title, .ticket-title {
+.review-title,
+.ticket-title {
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 5px;
@@ -518,13 +312,19 @@ header, .site-header {
 .rating {
     font-size: 1.2em;
     letter-spacing: 2px;
+    color: #000;
 }
 
-.review-body, .ticket-description {
+.review-body,
+.ticket-description {
     margin-bottom: 15px;
 }
 
-.ticket-in-review {
+.ticket-in-review,
+.ticket-info,
+.delete-confirmation,
+.ticket-section, 
+.review-section {
     border: 1px solid #000;
     padding: 10px;
     margin-top: 10px;
@@ -551,18 +351,12 @@ header, .site-header {
     object-fit: contain;
 }
 
-.ticket-actions {
-    text-align: right;
+.ticket-actions,
+.post-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
     margin-top: 15px;
-}
-
-.btn-create-review {
-    display: inline-block;
-    padding: 8px 15px;
-    border: 1px solid #000;
-    text-decoration: none;
-    color: #000;
-    font-size: 14px;
 }
 
 .no-posts {
@@ -572,26 +366,46 @@ header, .site-header {
     margin-top: 30px;
 }
 
-/* Boutons d'action */
-.action-buttons {
+.ticket-section, 
+.review-section {
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+.ticket-detail {
+    margin-top: 10px;
+}
+
+/* ========= ABONNEMENTS ========= */
+.search-form {
+    margin-bottom: 30px;
+}
+
+.search-group {
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin: 30px 0;
+    gap: 10px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.btn-action {
-    display: inline-block;
-    padding: 15px 25px;
+.search-group input {
+    flex-grow: 1;
+}
+
+.subscriptions-section, 
+.followers-section {
+    margin-top: 30px;
+}
+
+.subscriptions-table, 
+.followers-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.subscriptions-table td, 
+.followers-table td {
     border: 1px solid #000;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #000;
-    font-size: 16px;
-    text-align: center;
-    min-width: 200px;
-}
-
-.btn-action:hover {
-    background-color: #f8f8f8;
+    padding: 10px;
 }
