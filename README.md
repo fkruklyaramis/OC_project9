@@ -47,6 +47,7 @@ L'application LITReview permet à ses utilisateurs de :
   - Navigation simple entre les différentes fonctionnalités
   - Évaluation des critiques avec un système d'étoiles (0 à 5)
   - Messages de confirmation pour toutes les actions importantes
+  - Design moderne et responsive grâce à Bootstrap 5.3
 
 ## Schéma des modèles
 
@@ -195,8 +196,8 @@ webapp/
 │   ├── forms.py         # Formulaires
 │   ├── models.py        # Modèles de données
 │   ├── views.py         # Vues et logique
-│   ├── static/          # Fichiers statiques (CSS, JS)
-│   └── templates/       # Templates HTML
+│   ├── static/          # Fichiers statiques (CSS personnalisé, logo)
+│   └── templates/       # Templates HTML avec Bootstrap
 ├── media/               # Images téléchargées
 └── webapp/              # Configuration du projet
     ├── settings.py      # Paramètres Django
@@ -242,8 +243,9 @@ python manage.py collectstatic
 ### Technologies utilisées
 
 - **Django 5.2.1** : Framework web Python
+- **Bootstrap 5.3** : Framework CSS pour une interface moderne et responsive
 - **SQLite** : Base de données par défaut
-- **HTML/CSS** : Interface utilisateur
+- **HTML/CSS** : Structure et styles personnalisés complémentaires
 - **Pillow** : Gestion des images
 
 ## Fonctionnement de l'application
@@ -279,7 +281,76 @@ Le flux affiche dans l'ordre chronologique inversé (du plus récent au plus anc
 - Les tickets et critiques de l'utilisateur connecté
 - Les tickets et critiques publiés par les utilisateurs suivis
 - Les critiques des autres utilisateurs en réponse aux tickets de l'utilisateur connecté
-aze
+
+### Interface utilisateur moderne
+
+L'application utilise Bootstrap 5.3 pour offrir une expérience utilisateur optimale :
+
+- **Design responsive** : S'adapte automatiquement aux écrans mobiles, tablettes et ordinateurs
+- **Navigation intuitive** : Barre de navigation moderne avec logo et menu déroulant pour mobile
+- **Composants modernes** : Boutons, formulaires, alertes et cartes stylisés avec Bootstrap
+- **Accessibilité** : Respect des standards d'accessibilité web
+- **Performance** : CSS optimisé avec variables personnalisées complémentaires à Bootstrap
+
+## Déploiement
+
+### Préparation pour la production
+
+1. Mettez à jour les paramètres de sécurité dans `webapp/settings.py` :
+
+```python
+DEBUG = False
+SECRET_KEY = 'votre-clé-secrète'  # Utilisez une clé sécurisée unique
+ALLOWED_HOSTS = ['votre-domaine.com', 'www.votre-domaine.com']
+```
+
+2. Configurez une base de données plus robuste comme PostgreSQL pour la production.
+
+3. Configurez la gestion des fichiers statiques et media avec un serveur comme Nginx.
+
+### Options d'hébergement
+
+Plusieurs options sont disponibles pour déployer cette application Django :
+- PythonAnywhere : Solution d'hébergement Python simple
+- Heroku : Plateforme cloud avec scaling automatique
+- AWS, Google Cloud, Azure : Solutions cloud complètes
+
+### Commandes de déploiement typiques
+
+```bash
+# Collecter les fichiers statiques
+python manage.py collectstatic
+
+# Vérifier la configuration
+python manage.py check --deploy
+
+# Appliquer les migrations sur le serveur de production
+python manage.py migrate
+```
+
+## Dépannage
+
+### Problèmes courants
+
+1. **Erreur "No such table"** : Les migrations n'ont pas été appliquées. Exécutez `python manage.py migrate`.
+
+2. **Erreur lors du téléchargement d'images** : Vérifiez que le dossier `media` existe et a les permissions correctes.
+
+3. **Problèmes d'affichage du CSS/Bootstrap** : Assurez-vous que `DEBUG = True` en développement et que les fichiers statiques sont correctement configurés.
+
+4. **Erreur "Username already exists"** : Le nom d'utilisateur est déjà utilisé, essayez-en un autre.
+
+### Résolution de problèmes
+
+Si vous rencontrez d'autres problèmes :
+1. Consultez les logs Django (`python manage.py runserver` affiche les erreurs)
+2. Vérifiez la console de votre navigateur pour les erreurs JavaScript ou CSS
+3. Utilisez le shell Django pour tester vos modèles : `python manage.py shell`
+
+## Licence
+
+Ce projet est distribué sous licence MIT.
+
 ---
 
 Développé dans le cadre du Projet 9 du parcours Développeur d'Applications Python.
