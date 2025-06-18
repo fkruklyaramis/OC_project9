@@ -28,7 +28,7 @@
             {% csrf_token %}
             <div class="form-group search-group">
                 <input type="text" name="username" placeholder="Nom d'utilisateur" required class="form-control">
-                <button type="submit" class="btn">Envoyer</button>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
             </div>
         </form>
         
@@ -41,7 +41,7 @@
                     <tr>
                         <td>{{ follow.followed_user.username }}</td>
                         <td>
-                            <a href="{% url 'unfollow_user' follow.followed_user.id %}" class="btn-unfollow">Désabonner</a>
+                            <a href="{% url 'unfollow_user' follow.followed_user.id %}" class="btn btn-outline-danger btn-sm">Désabonner</a>
                         </td>
                     </tr>
                 {% empty %}

@@ -11,8 +11,8 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="form-actions">
-                    <button type="submit" class="btn-delete">Confirmer la suppression</button>
-                    <a href="{% url 'posts' %}" class="btn-cancel">Annuler</a>
+                    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+                    <a href="{% url 'posts' %}" class="btn btn-secondary">Annuler</a>
                 </div>
             </form>
         </div>

@@ -16,23 +16,29 @@
             
             {% if existing_ticket %}
                 <!-- Affichage du ticket existant -->
-                <div class="existing-ticket">
-                    <h3>Ticket : {{ existing_ticket.title }}</h3>
-                    {% if existing_ticket.description %}
-                        <p>{{ existing_ticket.description }}</p>
-                    {% endif %}
-                    {% if existing_ticket.image %}
-                        <div class="image-container">
-                            <img src="{{ existing_ticket.image.url }}" alt="{{ existing_ticket.title }}" class="ticket-image">
-                        </div>
-                    {% endif %}
-                    <p class="ticket-author">Demandé par : 
-                        {% if existing_ticket.user == request.user %}
-                            vous
-                        {% else %}
-                            {{ existing_ticket.user.username }}
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h3 class="card-title mb-0">Ticket : {{ existing_ticket.title }}</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if existing_ticket.description %}
+                            <p class="card-text">{{ existing_ticket.description }}</p>
                         {% endif %}
-                    </p>
+                        {% if existing_ticket.image %}
+                            <div class="image-container">
+                                <img src="{{ existing_ticket.image.url }}" alt="{{ existing_ticket.title }}" class="img-fluid ticket-image">
+                            </div>
+                        {% endif %}
+                        <p class="ticket-author text-muted mt-3">
+                            <small>Demandé par : 
+                            {% if existing_ticket.user == request.user %}
+                                vous
+                            {% else %}
+                                {{ existing_ticket.user.username }}
+                            {% endif %}
+                            </small>
+                        </p>
+                    </div>
                 </div>
             {% else %}
                 <!-- Formulaire de création de ticket -->
@@ -71,40 +77,40 @@
             <div class="review-section">
                 <h3>Critique</h3>
                 
-                <div class="form-group">
-                    <label for="id_headline">Titre</label>
+                <div class="form-group mb-3">
+                    <label for="id_headline" class="form-label">Titre</label>
                     {{ review_form.headline }}
                     {% if review_form.headline.errors %}
-                        <div class="form-errors">{{ review_form.headline.errors }}</div>
+                        <div class="invalid-feedback d-block">{{ review_form.headline.errors }}</div>
                     {% endif %}
                 </div>
                 
-                <div class="form-group">
-                    <label>Note</label>
-                    <div class="rating-choices">
+                <div class="form-group mb-4">
+                    <label class="form-label">Note</label>
+                    <div class="rating-choices d-flex flex-wrap gap-2">
                         {% for radio in review_form.rating %}
-                            <div class="rating-option">
+                            <div class="form-check form-check-inline">
                                 {{ radio.tag }}
-                                <label for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                                <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
                             </div>
                         {% endfor %}
                     </div>
                     {% if review_form.rating.errors %}
-                        <div class="form-errors">{{ review_form.rating.errors }}</div>
+                        <div class="invalid-feedback d-block">{{ review_form.rating.errors }}</div>
                     {% endif %}
                 </div>
                 
-                <div class="form-group">
-                    <label for="id_body">Commentaire</label>
+                <div class="form-group mb-4">
+                    <label for="id_body" class="form-label">Commentaire</label>
                     {{ review_form.body }}
                     {% if review_form.body.errors %}
-                        <div class="form-errors">{{ review_form.body.errors }}</div>
+                        <div class="invalid-feedback d-block">{{ review_form.body.errors }}</div>
                     {% endif %}
                 </div>
             </div>
             
             <div class="form-submit">
-                <button type="submit" class="btn-submit">Publier</button>
+                <button type="submit" class="btn btn-primary">Publier</button>
             </div>
         </form>
     </main>

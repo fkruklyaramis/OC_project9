@@ -8,35 +8,35 @@
         <form method="post" enctype="multipart/form-data" class="ticket-form">
             {% csrf_token %}
             
-            <div class="form-group">
-                <label for="id_title">Titre</label>
+            <div class="form-group mb-3">
+                <label for="id_title" class="form-label">Titre</label>
                 {{ form.title }}
                 {% if form.title.errors %}
-                    <div class="form-errors">{{ form.title.errors }}</div>
+                    <div class="invalid-feedback d-block">{{ form.title.errors }}</div>
                 {% endif %}
             </div>
             
-            <div class="form-group">
-                <label for="id_description">Description</label>
+            <div class="form-group mb-3">
+                <label for="id_description" class="form-label">Description</label>
                 {{ form.description }}
                 {% if form.description.errors %}
-                    <div class="form-errors">{{ form.description.errors }}</div>
+                    <div class="invalid-feedback d-block">{{ form.description.errors }}</div>
                 {% endif %}
             </div>
             
-            <div class="form-group">
-                <label for="id_image">Image</label>
-                <div class="file-upload">
+            <div class="form-group mb-4">
+                <label for="id_image" class="form-label">Image</label>
+                <div class="input-group mb-3">
                     {{ form.image }}
-                    <label for="id_image" class="file-button">Télécharger fichier</label>
                 </div>
+                <div class="form-text">Format recommandé: JPG, PNG ou WebP</div>
                 {% if form.image.errors %}
-                    <div class="form-errors">{{ form.image.errors }}</div>
+                    <div class="invalid-feedback d-block">{{ form.image.errors }}</div>
                 {% endif %}
             </div>
             
-            <div class="form-submit">
-                <button type="submit" class="btn-submit">Envoyer</button>
+            <div class="form-submit d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">Envoyer</button>
             </div>
         </form>
     </main>

@@ -23,7 +23,7 @@ class TicketForm(forms.ModelForm):
                 'placeholder': 'Décrivez le livre ou l\'article que vous souhaitez faire critiquer'
             }),
             'image': forms.FileInput(attrs={
-                'class': 'file-input',
+                'class': 'form-control',
                 'accept': 'image/*'
             }),
         }
@@ -34,7 +34,7 @@ class ReviewForm(forms.ModelForm):
 
     rating = forms.ChoiceField(
         choices=RATING_CHOICES,
-        widget=forms.RadioSelect(),
+        widget=forms.RadioSelect(attrs={'class': 'form-check-input me-1'}),
         label='Note'
     )
 
@@ -46,6 +46,10 @@ class ReviewForm(forms.ModelForm):
             'body': 'Commentaire',
         }
         widgets = {
-            'headline': forms.TextInput(attrs={'class': 'form-control'}),
-            'body': forms.Textarea(attrs={'class': 'form-control'}),
+            'headline': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre de votre critique'}),
+            'body': forms.Textarea(attrs={
+                'class': 'form-control',
+                'rows': 5,
+                'placeholder': 'Rédigez votre critique ici'
+            }),
         }

@@ -6,8 +6,8 @@
         <h2>Bienvenue sur votre flux, {{ user.username }} !</h2>
         
         <div class="action-buttons">
-            <a href="{% url 'create_ticket' %}" class="btn-action">Demander une critique</a>
-            <a href="{% url 'create_review' %}" class="btn-action">Créer une critique</a>
+            <a href="{% url 'create_ticket' %}" class="btn btn-primary btn-action">Demander une critique</a>
+            <a href="{% url 'create_review' %}" class="btn btn-success btn-action">Créer une critique</a>
         </div>
         
         <div class="posts-container">
@@ -90,7 +90,7 @@
                         
                         {% if not post.has_review_from_user %}
                             <div class="ticket-actions">
-                                <a href="{% url 'create_review_for_ticket' post.id %}" class="btn-create-review">Créer une critique</a>
+                                <a href="{% url 'create_review_for_ticket' post.id %}" class="btn btn-outline-primary btn-sm">Créer une critique</a>
                             </div>
                         {% endif %}
                     </div>

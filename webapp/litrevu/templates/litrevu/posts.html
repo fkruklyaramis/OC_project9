@@ -35,14 +35,16 @@
                                 </div>
                                 <h4 class="ticket-title">{{ post.ticket.title }}</h4>
                                 {% if post.ticket.image %}
-                                    <img src="{{ post.ticket.image.url }}" alt="Image pour {{ post.ticket.title }}" class="ticket-image">
+                                    <div class="image-container">
+                                        <img src="{{ post.ticket.image.url }}" alt="Image pour {{ post.ticket.title }}" class="ticket-image">
+                                    </div>
                                 {% endif %}
                             </div>
                         </div>
                         
                         <div class="post-actions">
-                            <a href="{% url 'update_review' post.id %}" class="btn-action-small">Modifier</a>
-                            <a href="{% url 'delete_review' post.id %}" class="btn-action-small">Supprimer</a>
+                            <a href="{% url 'update_review' post.id %}" class="btn btn-outline-primary btn-sm">Modifier</a>
+                            <a href="{% url 'delete_review' post.id %}" class="btn btn-outline-danger btn-sm">Supprimer</a>
                         </div>
                     </div>
                 {% elif post.content_type == 'TICKET' %}
@@ -57,13 +59,15 @@
                         <div class="post-content">
                             <h3 class="ticket-title">{{ post.title }}</h3>
                             {% if post.image %}
-                                <img src="{{ post.image.url }}" alt="Image pour {{ post.title }}" class="ticket-image">
+                                <div class="image-container">
+                                    <img src="{{ post.image.url }}" alt="Image pour {{ post.title }}" class="ticket-image">
+                                </div>
                             {% endif %}
                         </div>
                         
                         <div class="post-actions">
-                            <a href="{% url 'update_ticket' post.id %}" class="btn-action-small">Modifier</a>
-                            <a href="{% url 'delete_ticket' post.id %}" class="btn-action-small">Supprimer</a>
+                            <a href="{% url 'update_ticket' post.id %}" class="btn btn-outline-primary btn-sm">Modifier</a>
+                            <a href="{% url 'delete_ticket' post.id %}" class="btn btn-outline-danger btn-sm">Supprimer</a>
                         </div>
                     </div>
                 {% endif %}

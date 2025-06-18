@@ -279,7 +279,7 @@ Le flux affiche dans l'ordre chronologique inversé (du plus récent au plus anc
 - Les tickets et critiques de l'utilisateur connecté
 - Les tickets et critiques publiés par les utilisateurs suivis
 - Les critiques des autres utilisateurs en réponse aux tickets de l'utilisateur connecté
-
+aze
 ---
 
 Développé dans le cadre du Projet 9 du parcours Développeur d'Applications Python.
