@@ -128,14 +128,20 @@ Les dépendances principales incluent:
 - ASGI 3.8.1 - Interface ASGI pour la compatibilité serveur
 - python-dotenv==1.0.0 - Gestion des variables d'environnements
 
-### 5. Appliquer les migrations pour créer la base de données
+### 5. Créez un fichier `.env` dans le dossier `webapp` avec les variables suivantes:
+
+```
+SECRET_KEY='your-secret-key'
+DEBUG='True'
+```
+### 6. Appliquer les migrations pour créer la base de données
 
 ```bash
 cd webapp
 python manage.py migrate
 ```
 
-### 6. (Optionnel) Créer un superutilisateur pour accéder à l'administration Django
+### 7. (Optionnel) Créer un superutilisateur pour accéder à l'administration Django
 
 ```bash
 python manage.py createsuperuser

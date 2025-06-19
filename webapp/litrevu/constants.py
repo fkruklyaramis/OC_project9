@@ -7,6 +7,7 @@ MAX_RATING = 5
 ERROR_MESSAGES = {
     'PASSWORD_MISMATCH': 'Les deux mots de passe ne correspondent pas.',
     'USERNAME_EXISTS': 'Ce nom d\'utilisateur existe déjà.',
+    'LOGIN_FAILED': "Nom d'utilisateur ou mot de passe incorrect. Veuillez réessayer.",
     'CANNOT_FOLLOW_SELF': 'Vous ne pouvez pas vous suivre vous-même.',
     'ALREADY_FOLLOWING': 'Vous suivez déjà {username}.',
     'USER_NOT_FOUND': 'L\'utilisateur {username} n\'existe pas.',
