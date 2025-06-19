@@ -6,21 +6,11 @@
         <h2>Suivre d'autres utilisateurs</h2>
         
         {% if error_message %}
-            <div class="alert alert-error">{{ error_message }}</div>
+            <div class="alert alert-danger">{{ error_message }}</div>
         {% endif %}
         
         {% if success_message %}
             <div class="alert alert-success">{{ success_message }}</div>
-        {% endif %}
-        
-        {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            </div>
         {% endif %}
         
         <!-- Formulaire de recherche d'utilisateur -->

@@ -54,6 +54,20 @@ body {
     background-color: var(--light-gray);
     border-radius: var(--border-radius);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.register-section form, 
+.login-section form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.login-section .form-group {
+    margin-bottom: 1rem;
 }
 
 /* ========= STYLES SPÉCIFIQUES NON-BOOTSTRAP ========= */
@@ -96,9 +110,15 @@ body {
 .form-submit,
 .form-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 0.5rem;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
+}
+
+/* Style spécifique pour les boutons de la page d'index */
+.auth-container .form-actions {
+    justify-content: center;
+    margin-top: 1rem;
 }
 
 /* Boutons d'action principaux */
@@ -245,4 +265,10 @@ body {
     /* Ces styles seront remplacés par .table .table-striped dans les templates */
     width: 100%;
     margin-top: 1rem;
+}
+
+/* Spacer pour pousser les éléments vers le bas */
+.spacer {
+    flex-grow: 1;
+    min-height: 2rem;
 }

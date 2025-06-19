@@ -126,6 +126,7 @@ Les dépendances principales incluent:
 - Pillow 11.2.1 - Bibliothèque pour la gestion des images 
 - SQLparse 0.5.3 - Pour le formatage SQL
 - ASGI 3.8.1 - Interface ASGI pour la compatibilité serveur
+- python-dotenv==1.0.0 - Gestion des variables d'environnements
 
 ### 5. Appliquer les migrations pour créer la base de données
 
@@ -247,6 +248,7 @@ python manage.py collectstatic
 - **SQLite** : Base de données par défaut
 - **HTML/CSS** : Structure et styles personnalisés complémentaires
 - **Pillow** : Gestion des images
+- **python-dotenv** : Gestion des variables d'environnements
 
 ## Fonctionnement de l'application
 
