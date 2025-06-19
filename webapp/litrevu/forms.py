@@ -4,6 +4,12 @@ from .constants import MAX_RATING
 
 
 class TicketForm(forms.ModelForm):
+    """
+    Formulaire pour créer ou modifier un ticket.
+
+    Permet aux utilisateurs de créer une demande de critique pour un livre ou un article
+    avec un titre, une description et une image de couverture optionnelle.
+    """
     class Meta:
         model = Ticket
         fields = ['title', 'description', 'image']
@@ -30,6 +36,12 @@ class TicketForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
+    """
+    Formulaire pour créer ou modifier une critique.
+
+    Permet aux utilisateurs de rédiger une critique en réponse à un ticket,
+    avec un titre, un texte de critique et une note de 0 à 5 étoiles.
+    """
     RATING_CHOICES = [(i, str(i)) for i in range(MAX_RATING + 1)]
 
     rating = forms.ChoiceField(
