@@ -168,6 +168,21 @@ Pour accéder au shell Django interactif (utile pour tester ou déboguer) :
 cd webapp
 python manage.py shell
 ```
+### Lancement avec Docker
+
+Si vous préférez utiliser Docker, vous pouvez facilement démarrer l'application en utilisant les commandes suivantes :
+
+```bash
+# Construire l'image Docker
+docker build -t my-django-app .
+
+# Lancer le conteneur
+docker run --name lit-review-app -p 8000:8000 -d my-django-app
+```
+
+Accédez ensuite à l'application via `http://localhost:8000`
+
+**Note importante :** N'oubliez pas de créer le fichier `.env` dans le dossier `webapp` avant de construire l'image Docker.
 
 ### Administration
 
